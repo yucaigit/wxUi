@@ -26,6 +26,11 @@ export default new Router({
           component:()=>import('../views/user/User')
         },
         {
+          path: '/userdetail',
+          name: 'userdetail',
+          component:()=>import('../views/userdetail/UserDetail')
+        },
+        {
           path: '/goods',
           name: 'goods',
           component:()=>import('../views/goods/Goods')
@@ -48,7 +53,5 @@ export default new Router({
       name: 'Login',
       component: Login
     },
-
-
   ]
 })

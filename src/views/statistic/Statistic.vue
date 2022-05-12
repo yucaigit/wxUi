@@ -11,6 +11,7 @@
 <!--      内容区域-->
 
       <div v-if="current===1">
+        成交量/时间
         <div style="width: auto;height: 400px" id="main1">
         </div>
       </div>

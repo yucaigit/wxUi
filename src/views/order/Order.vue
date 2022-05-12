@@ -59,7 +59,26 @@
       <div style="width: auto;height: 400px" id="main">
       </div>
     </div>
+    <el-drawer
+      title="商品详情"
+      :visible.sync="drawer"
+      :direction="direction"
+      :before-close="handleClose">
+      <table>
+        <p>订单编号:  {{drawerinfo.orderid}}</p>
+        <p>订单状态:      {{drawerinfo.orderState}}</p>
+        <p>
+          商品图片 <el-image :src="drawerinfo.goodsSrc" class="imgsClass"></el-image>
+        </p>
+        <P>商品名称:  {{drawerinfo.goodsName}}</P>
+        <p>上架日期:       {{drawerinfo.goodsupTime}}</p>
+        <p>接收人姓名:     {{drawerinfo.resiveName}}</p>
+        <p>接收人电话:     {{drawerinfo.resivePhone}}</p>
+        <p>接收订单时间:    {{drawerinfo.sendTime}}</p>
+      </table>
+    </el-drawer>
 </div>
+
 </template>
 
 <script>
@@ -67,17 +86,67 @@
         name: "Order",
       data() {
         return {
+          drawer:false,
+          direction: 'rtl',
           current:1,
           tableData: [],
           multipleSelection: [],
           timeArr:[],
           numbArr:[],
+
+          drawerinfo:{
+            orderid:0,
+            resiveName:'',
+            resivePhone:'',
+            sendTime:'',
+            goodsName:'',
+            goodsSrc:'',
+            goodsupTime:'',
+            orderState:0,
+          }
         }
       },
 
       methods: {
         handleEdit(index,row){
+
+          this.drawerinfo.resiveName = row.users.uname
+          this.drawerinfo.resivePhone = row.users.uphone
+
+          this.getOneOrder(row.orderId)
+
+          this.drawer = true
         },
+        //关闭抽屉
+        handleClose(done) {
+          this.$confirm('确认关闭？')
+            .then(_ => {
+              done();
+            })
+            .catch(_ => {});
+        },
+        //更据Id的到商品信息
+        async getOneOrder(res){
+          let result  = await this.$get('/mesage/getOne?orderid='+res)
+          this.drawerinfo.orderid = res
+          this.drawerinfo.orderState = result.orderState
+          this.drawerinfo.sendTime = result.orderEndtime
+
+          this.getGoods(result.goodsId)
+        },
+        async getUser(res){
+          let result = await this.$get('/mesage/getUser?userid='+res);
+        },
+        async getGoods(res){
+          let result = await this.$get('/mesage/getGoods?goodsid='+res)
+          this.drawerinfo.goodsupTime = result.gdateUp
+          this.drawerinfo.goodsSrc = result.gimg1
+          this.drawerinfo.goodsName = result.gname
+
+          console.log(result)
+        },
+
+
           async getOrders(){
             let result = await this.$get('/message/getOrders')
             this.tableData = result
@@ -155,5 +224,8 @@
 </script>
 
 <style scoped>
-
+  .imgsClass{
+    width: 200px;
+    height: 200px;
+  }
 </style>
