@@ -44,6 +44,10 @@
             <el-button
               size="mini"
               @click="handleEdit(scope.$index, scope.row)">查看详情</el-button>
+            <el-button
+              size="mini"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -117,6 +121,14 @@
 
           this.drawer = true
         },
+        handleDelete(index,row){
+          this.deleOrder(row.orderId)
+        },
+        async deleOrder(e){
+          let result = await this.$get('/mesage/deleteOrder?oid='+e)
+          alert('delete succcess!')
+          this.getOrders()
+        },
         //关闭抽屉
         handleClose(done) {
           this.$confirm('确认关闭？')
@@ -170,7 +182,9 @@
             this.$refs.multipleTable.clearSelection();
           }
         },
+
         handleSelectionChange(val) {
+
           this.timeArr=[]
           this.numbArr=[]
           var hamap = new Map();

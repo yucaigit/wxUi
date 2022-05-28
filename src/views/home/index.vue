@@ -204,10 +204,12 @@
       created() {
           this.getAllattr()
           this.getUserNum()
+          this.getOnlineUser()
           this.getGoodsNum()
           this.getOrderNum()
           this.getAllMoney()
-          this.getOneOrder()
+          // this.getOneOrder()
+          this.getOrderCount()
       },
       methods:{
           async getAllattr(){
@@ -225,7 +227,6 @@
         },
         open1(e){
           const h = this.$createElement;
-
           this.$notify({
             title: '搜索建议',
             message: h('i', {style: 'color: teal'}, e)
@@ -305,13 +306,19 @@
             let result = await this.$get('/mesage/getOrderNum')
           this.orderNum = result
         },
+        //在线人数onLineUsers
         async getOnlineUser(){
             let result = await this.$get('/onLineUsers')
+          console.log(result)
            this.onlineUser = result
         },
         async getAllMoney(){
             let result = await this.$get('/mesage/getallMoney')
           this.money = result
+        },
+        async getOrderCount(){
+            let result = await this.$get('/mesage/getOrderCunt')
+          this.succNum = result
         }
       }
     }

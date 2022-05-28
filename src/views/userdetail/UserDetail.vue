@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button type="danger" round v-if="userinfo.ustate===1">接触封禁</el-button>
+    <el-button type="danger" round v-if="userinfo.ustate===1" @click="updateUserState">解除封禁</el-button>
 
     <el-descriptions title="用户信息">
       <el-descriptions-item label="用户名">{{userinfo.uname}}</el-descriptions-item>
@@ -37,6 +37,11 @@
         }
       },
       methods:{
+        //  修改用户状态
+        async updateUserState(){
+          let result = this.$get('/mesage/updateUserState?uid='+this.userid)
+          this.getUserInfo()
+        },
         async getUserInfo(){
           let result = await this.$get('/mesage/getUserInfo?uid='+this.userid)
          // console.log(result)
@@ -142,6 +147,7 @@
           this.userid = this.$route.query.userid
         this.getUserInfo()
       },
+
     }
 </script>
 

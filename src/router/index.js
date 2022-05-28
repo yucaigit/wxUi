@@ -44,6 +44,26 @@ export default new Router({
           path: '/statistic',
           name: 'statistic',
           component:()=>import('../views/statistic/Statistic')
+        },
+        {
+          path: '/sort',
+          name: 'sort',
+          component:()=>import('../views/sort/index')
+        },
+        {
+          path: '/sortdetail',
+          name: 'sortdetail',
+          component:()=>import('../views/sortdetail/index')
+        },
+        {
+          path: '/test',
+          name: 'test',
+          component:()=>import('../views/test/index')
+        },
+        {
+          path: '/updateinfo',
+          name: 'updateinfo',
+          component:()=>import('../views/updateinfo/index')
         }
       ]
     },

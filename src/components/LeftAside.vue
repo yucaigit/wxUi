@@ -60,6 +60,13 @@
               label:'统计分析',
               icon:'eleme',
               url:'Statistic/statistic'
+            },
+            {
+              path: '/sort',
+              name: 'sort',
+              label: '商品分类管理',
+              icon: 'document-copy',
+              url: 'Sort/sort'
             }
             // {
             //   label: '其他',
