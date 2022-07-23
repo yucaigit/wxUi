@@ -4,7 +4,6 @@
       <div>
       <el-row>
         <el-button @click="showbox1(1)">订单统计</el-button>
-        <el-button @click="showbox2(2)">用户统计</el-button>
         <el-button @click="showbox3(3)">用户量统计</el-button>
       </el-row>
       </div>
@@ -20,9 +19,38 @@
         <div style="width: auto;height: 400px" id="main2">
         </div>
       </div>
+      <div v-if="current==3">
+        <el-table
+          :data="tableData"
+          border
+          style="width: 100%">
+          <el-table-column
+            fixed
+            prop="time"
+            label="登录时间"
+            width="300">
+          </el-table-column>
+          <el-table-column
+            prop="name"
+            label="姓名"
+            width="300">
+          </el-table-column>
+          <el-table-column
+            prop="ip"
+            label="Ip地址"
+            width="300">
+          </el-table-column>
 
-
-
+          <el-table-column
+            fixed="right"
+            label="操作"
+            width="200">
+            <template slot-scope="scope">
+              <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
       </div>
 
 </template>
@@ -37,10 +65,33 @@
           return{
             current:1,
             goodsName:[],
-            nameVlue:[]
+            nameVlue:[],
+            tableData: []
           }
       },
       methods:{
+        //获取用户Ip
+        async getUserIp(){
+          let result = await this.$get('/mesage/getUserIps')
+          result.find(x=>{
+            x.time = x.time.substring(0,10)
+          })
+          console.log(result)
+          this.tableData = result
+        },
+        //删除Ip
+        async deleteIp(e){
+          let result = await this.$get('/mesage/deleteip?id='+e)
+          this.getUserIp()
+        },
+        showbox3(e){
+          this.current=e
+          this.getUserIp()
+        },
+        handleClick(row) {
+          this.deleteIp(row.id)
+        },
+
         async getGoodsName(){
           let result =  await this.$get('/getNames')
           console.log(result)

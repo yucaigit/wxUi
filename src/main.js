@@ -17,7 +17,6 @@ Vue.prototype.$get = get
 Vue.prototype.$post = post
 /* eslint-disable no-new */
 
-
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem("token");
   if (to.meta.requireLogin){
